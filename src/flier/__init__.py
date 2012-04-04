@@ -1,4 +1,5 @@
 import urllib2
+from urllib import urlencode
 import json
 
 debug=False
@@ -21,15 +22,14 @@ class Endpoint(object):
             self.perform(d.get('name'), d.get('options'))
 
     def post(self, url, _type, args):
-        _domain = args.get('_domain') or self.domain
+        if not args.get('_domain'):
+            args['_domain'] = self.domain
+        args['_type'] = _type
 
         if debug: print args
         req = urllib2.Request(
-            sky+url+"/"+_domain+"/"+_type, 
-            headers={
-                "Content-Type": "application/json"
-                },
-            data=json.dumps(args))
+            sky+url,
+            data=urlencode(args))
         f = urllib2.urlopen(req)
         response=[n for n in f.readlines() if not n.startswith("//")]
         return ''.join(response)
