@@ -26,7 +26,7 @@ class Endpoint(object):
             args['_domain'] = self.domain
         args['_type'] = _type
 
-        if debug: print args
+        if debug: print ">>", args
         req = urllib2.Request(
             sky+url,
             data=urlencode(args))
