@@ -26,9 +26,12 @@ class Endpoint(object):
             args['_domain'] = self.domain
         args['_type'] = _type
 
-        if debug: print ">>", args
+        target = sky+url
+        if debug:
+            print ">>", target
+            print ">>", args
         req = urllib2.Request(
-            sky+url,
+            target,
             data=urlencode(args))
         f = urllib2.urlopen(req)
         response=[n for n in f.readlines() if not n.startswith("//")]
